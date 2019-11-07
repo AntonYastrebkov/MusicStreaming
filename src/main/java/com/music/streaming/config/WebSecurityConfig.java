@@ -12,10 +12,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/main", "/pain", "/swagger-ui.html").permitAll()
-                    .anyRequest().authenticated()
+                    .antMatchers("/", "/main", "/pain", "/swagger-ui.html", "/user/register").permitAll()
+                    // TODO: Remove, when registration/authentication logic is complete
+                    .anyRequest().permitAll()
                 .and()
                     .formLogin()
                     .loginPage("/login")

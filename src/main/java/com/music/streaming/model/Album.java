@@ -14,14 +14,15 @@ public class Album {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String coverPath;
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "artist_id")
+    private Artist artist;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "song_id")
     private Set<Song> songs;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "performer_id")
-    private Performer performer;
-
 
 }

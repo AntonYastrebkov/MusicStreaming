@@ -16,7 +16,7 @@ public class Song {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "performer_id")
-    private Performer performer;
+    private Artist performer;
 
 
 }

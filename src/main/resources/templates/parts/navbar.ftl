@@ -19,6 +19,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/user">User List</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/music-manage">Music administration</a>
+                </li>
             </#if>
         </ul>
 

@@ -34,22 +34,14 @@ public class UserServiceImpl implements UserService {
         if (userFromDb != null) {
             return false;
         }
-//        userFromDb = new User();
-//        userFromDb.setEmail(userDto.getEmail());
-//        userFromDb.setUsername(userDto.getUsername());
-//        userFromDb.setPassword(userDto.getPassword());
-//        userFromDb.setFirstName(userDto.getFirstName());
-//        userFromDb.setLastName(userDto.getLastName());
-//        userFromDb.setRoles(Collections.singleton(Role.USER));
-//        userFromDb.setActivationCode(UUID.randomUUID().toString());
         userFromDb = new User();
-        userFromDb.setEmail("anton.yastrebkoff@gmail.com");
-        userFromDb.setUsername("admin");
-        userFromDb.setPassword("admin");
-        userFromDb.setFirstName("Unknown");
-        userFromDb.setLastName("Capybara");
-        userFromDb.setRoles(Set.of(Role.USER, Role.ADMIN));
-        userFromDb.setActive(true);
+        userFromDb.setEmail(userDto.getEmail());
+        userFromDb.setUsername(userDto.getUsername());
+        userFromDb.setPassword(userDto.getPassword());
+        userFromDb.setFirstName(userDto.getFirstName());
+        userFromDb.setLastName(userDto.getLastName());
+        userFromDb.setRoles(Collections.singleton(Role.USER));
+        userFromDb.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(userFromDb);
 
         if (!StringUtils.isEmpty(userFromDb.getEmail())) {

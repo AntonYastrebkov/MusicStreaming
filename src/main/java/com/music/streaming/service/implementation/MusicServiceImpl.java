@@ -57,7 +57,31 @@ public class MusicServiceImpl implements MusicService {
         album.setName(name);
         album.setArtist(artist);
         album.setGenre(genre);
+        if (! saveCover(album, cover)) {
+            return false;
+        }
 
+        albumRepository.save(album);
+
+        return true;
+    }
+
+    @Override
+    public boolean updateAlbum(Album album, String name, String artistName, MultipartFile cover, Genre genre) {
+        album.setName(name);
+        Artist artist = artistRepository.findByName(artistName);
+        if (artist == null) {
+            return false;
+        }
+        album.setArtist(artist);
+        album.setGenre(genre);
+        if (cover != null && !saveCover(album, cover)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean saveCover(Album album, MultipartFile cover) {
         if (cover != null && !cover.getOriginalFilename().isEmpty()) {
             File destination = new File(uploadPath);
             if (!destination.exists()) {
@@ -72,10 +96,10 @@ public class MusicServiceImpl implements MusicService {
                 e.printStackTrace();
             }
 
-            System.out.println(filename);
             album.setCoverPath(filename);
+        } else {
+            return false;
         }
-        albumRepository.save(album);
 
         return true;
     }

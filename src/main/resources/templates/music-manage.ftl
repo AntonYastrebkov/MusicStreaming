@@ -1,9 +1,10 @@
 <#import "parts/common.ftl" as common>
+<#import "parts/genres-select.ftl" as genreSelect>
 
 <@common.page>
-Music editor
+<h1 class="display-4">Music editor</h1>
 
-${message!}
+<p class="lead">${message!}</p>
 
 <div class="accordion" id="accordionExample">
     <div class="card">
@@ -58,7 +59,7 @@ ${message!}
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                         </div>
-                        <@enumSelect "genre" genres/>
+                        <@genreSelect.enumSelect "genre" genres />
                         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Add message</button>
@@ -85,13 +86,3 @@ ${message!}
 </div>
 
 </@common.page>
-
-<#macro enumSelect selectName enumValues>
-    <select name="${selectName}">
-        <#list enumValues as enum>
-            <option value="${enum}">${enum}</option>
-        </#list>
-    </select>
-</#macro>
-
-<#-- calling the macro -->

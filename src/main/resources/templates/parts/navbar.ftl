@@ -13,7 +13,7 @@
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/main">Messages</a>
+                <a class="nav-link" href="/main">Albums</a>
             </li>
             <#if isAdmin>
                 <li class="nav-item">
@@ -25,7 +25,7 @@
             </#if>
         </ul>
 
-        <div class="navbar-text ml-3">${name}</div>
+        <div class="navbar-text mx-3">${name}</div>
         <@login.logout />
     </div>
 </nav>

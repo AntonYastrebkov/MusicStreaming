@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,6 +21,9 @@ public class Album {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "artist_id")
     private Artist artist;
+
+    @OneToMany(mappedBy = "album")
+    private List<Comment> comments;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "song_id")

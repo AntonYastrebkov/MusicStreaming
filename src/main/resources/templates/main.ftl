@@ -15,14 +15,16 @@
     <#list albums as album>
     <div class="card my-3">
         <#if album.coverPath??>
-            <img src="/img/${album.coverPath}" class="card-img-top" />
+            <img src="/img/${album.coverPath}" class="card-img-top rounded" />
+        <#else>
+            <img src="/img/default.jpg" class="card-img-top rounded" />
         </#if>
     <div class="m-2">
         <span>${album.name}</span>
 <!--        <i>${album.artist.name}</i>-->
     </div>
         <div class="card-footer text-muted">
-            ${album.artist.name}
+            <a href="/artist/${album.artist.id}">${album.artist.name}</a>
         </div>
         <div class="card-footer text-muted text-right">
             <a href="/album/${album.id}" class="btn btn-primary">Comment</a>
@@ -32,7 +34,7 @@
         </div>
     </div>
     <#else>
-        No messages yet
+        <p class="lead">No albums yet</p>
     </#list>
 </div>
 </@common.page>

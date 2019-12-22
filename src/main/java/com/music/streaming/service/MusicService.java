@@ -8,9 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface MusicService {
-    boolean addArtist(Artist artist);
+    boolean addArtist(String name, String description, String year, MultipartFile file);
 
     boolean addAlbum(String name, String artistName, MultipartFile cover, Genre genre);
 
     boolean updateAlbum(Album album, String name, String artistName, MultipartFile cover, Genre genre);
+
+    boolean updateArtist(Artist artist, String name, String description, String year, MultipartFile file);
 }

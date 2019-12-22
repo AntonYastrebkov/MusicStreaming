@@ -8,7 +8,9 @@
 
 <div class="form-row">
     <#if album.coverPath??>
-        <img src="/img/${album.coverPath}" class="card-img-top" height="400px "/>
+        <img src="/img/${album.coverPath}" class="img-thumbnail" />
+    <#else>
+        <img src="/img/default.jpg" class="img-thumbnail" />
     </#if>
     <div class="form-group col-md-6">
         <form class="form-group" action="/music-manage/album/${album.id}" method="post"  enctype="multipart/form-data">

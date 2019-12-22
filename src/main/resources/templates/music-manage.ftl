@@ -18,15 +18,16 @@
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
                 <div class="form-group mt-3">
-                    <form action="/music-manage/addArtist" method="post">
+                    <form action="/music-manage/addArtist" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <input type="text" name="name" class="form-control" placeholder="Name">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="description" class="form-control" placeholder="Description">
-                        </div>
-                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                        <div class="form-group">
+                            <textarea name="description" class="form-control" aria-label="With textarea" placeholder="Artist description"></textarea>
+                            <input type="text" class="form-control" name="year" placeholder="Year of activity">
+                            <div class="custom-file">
+                                <input type="file" name="image" id="customFile2" />
+                                <label class="custom-file-label" for="customFile2">New image</label>
+                            </div>
+                            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                             <button type="submit" class="btn btn-primary">Add artist to base</button>
                         </div>
                     </form>

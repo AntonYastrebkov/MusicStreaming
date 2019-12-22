@@ -15,6 +15,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/main">Albums</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/artists">Artists</a>
+            </li>
             <#if isAdmin>
                 <li class="nav-item">
                     <a class="nav-link" href="/user">User List</a>

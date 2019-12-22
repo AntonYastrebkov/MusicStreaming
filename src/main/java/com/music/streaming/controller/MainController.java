@@ -1,9 +1,11 @@
 package com.music.streaming.controller;
 
 import com.music.streaming.model.Album;
+import com.music.streaming.model.Artist;
 import com.music.streaming.model.Role;
 import com.music.streaming.model.User;
 import com.music.streaming.repository.AlbumRepository;
+import com.music.streaming.repository.ArtistRepository;
 import com.music.streaming.repository.UserRepository;
 import com.music.streaming.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 public class MainController {
     private final UserService userService;
     private final AlbumRepository albumRepository;
+    private final ArtistRepository artistRepository;
 
     @GetMapping("/")
     public String greetings(Model model) {
@@ -44,5 +47,18 @@ public class MainController {
         model.addAttribute("albums", albums);
         model.addAttribute("filter", filter);
         return "main";
+    }
+
+    @GetMapping("/artists")
+    public String artists(Model model, String filter) {
+        Iterable<Artist> artists = artistRepository.findAll();
+//        if (StringUtils.isEmpty(filter)) {
+//            artists = artistRepository.findAll();
+//        } else {
+//            artists = artistRepository.findByName(filter);
+//        }
+        model.addAttribute("artists", artists);
+        model.addAttribute("filter", filter);
+        return "artists-list";
     }
 }

@@ -21,7 +21,6 @@ import java.util.UUID;
 
 @Service
 @Transactional
-// @RequiredArgsConstructor
 public class MusicServiceImpl implements MusicService {
     @Autowired
     private ArtistRepository artistRepository;
@@ -31,9 +30,16 @@ public class MusicServiceImpl implements MusicService {
     private String uploadPath;
 
     @Override
-    public boolean addArtist(Artist artist) {
-        Artist artistFromDb = artistRepository.findByName(artist.getName());
+    public boolean addArtist(String name, String description, String year, MultipartFile file) {
+        Artist artistFromDb = artistRepository.findByName(name);
         if (artistFromDb != null) {
+            return false;
+        }
+        Artist artist = new Artist();
+        artist.setName(name);
+        artist.setDescription(description);
+        artist.setYear(year);
+        if (file != null && !saveArtistImage(artist, file)) {
             return false;
         }
         artistRepository.save(artist);
@@ -81,26 +87,56 @@ public class MusicServiceImpl implements MusicService {
         return true;
     }
 
+    @Override
+    public boolean updateArtist(Artist artist, String name, String description, String year, MultipartFile file) {
+        artist.setName(name);
+        artist.setDescription(description);
+        artist.setYear(year);
+        if (file != null) {
+            return saveArtistImage(artist, file);
+        }
+        return true;
+    }
+
+    private boolean saveArtistImage(Artist artist, MultipartFile image) {
+        String filename = saveImage(image);
+        System.out.println(filename);
+        if ("".equals(filename)) {
+            return false;
+        }
+        artist.setImagePath(filename);
+        return true;
+    }
+
     private boolean saveCover(Album album, MultipartFile cover) {
-        if (cover != null && !cover.getOriginalFilename().isEmpty()) {
+        String filename = saveImage(cover);
+        if ("".equals(filename)) {
+            return false;
+        }
+        album.setCoverPath(filename);
+        return true;
+    }
+
+    private String saveImage(MultipartFile file) {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
             File destination = new File(uploadPath);
             if (!destination.exists()) {
                 destination.mkdir();
             }
 
             String filename = UUID.randomUUID().toString() + "."
-                    + cover.getOriginalFilename();
+                    + file.getOriginalFilename();
             try {
-                cover.transferTo(new File(uploadPath + "/" + filename));
+                file.transferTo(new File(uploadPath + "/" + filename));
             } catch (IOException e) {
                 e.printStackTrace();
+                return "";
             }
 
-            album.setCoverPath(filename);
+            return filename;
         } else {
-            return false;
+            return "";
         }
-
-        return true;
     }
+
 }

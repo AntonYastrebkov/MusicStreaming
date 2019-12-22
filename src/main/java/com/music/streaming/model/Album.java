@@ -25,7 +25,7 @@ public class Album {
     @OneToMany(mappedBy = "album")
     private List<Comment> comments;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
     private Set<Song> songs;
 

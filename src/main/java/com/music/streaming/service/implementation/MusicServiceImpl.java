@@ -3,10 +3,11 @@ package com.music.streaming.service.implementation;
 import com.music.streaming.model.Album;
 import com.music.streaming.model.Artist;
 import com.music.streaming.model.Genre;
+import com.music.streaming.model.Song;
 import com.music.streaming.repository.AlbumRepository;
 import com.music.streaming.repository.ArtistRepository;
+import com.music.streaming.repository.SongRepository;
 import com.music.streaming.service.MusicService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class MusicServiceImpl implements MusicService {
     private ArtistRepository artistRepository;
     @Autowired
     private AlbumRepository albumRepository;
+    @Autowired
+    private SongRepository songRepository;
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -39,8 +42,10 @@ public class MusicServiceImpl implements MusicService {
         artist.setName(name);
         artist.setDescription(description);
         artist.setYear(year);
-        if (file != null && !saveArtistImage(artist, file)) {
-            return false;
+        if (!file.isEmpty()) {
+            if (!saveArtistImage(artist, file)) {
+                return false;
+            }
         }
         artistRepository.save(artist);
         return true;
@@ -51,22 +56,22 @@ public class MusicServiceImpl implements MusicService {
         List<Album> albumByName = albumRepository.findByName(name);
         Artist artist = artistRepository.findByName(artistName);
 
-        System.out.println(artist.getName());
-
         Optional<Album> optional = albumByName.stream()
                 .filter(a -> a.getArtist().getName().equals(artistName))
                 .findFirst();
         if (artist == null || optional.isPresent()) {
             return false;
         }
+        System.out.println("Create");
         Album album = new Album();
         album.setName(name);
         album.setArtist(artist);
         album.setGenre(genre);
+        System.out.println("Saving file");
         if (! saveCover(album, cover)) {
             return false;
         }
-
+        System.out.println("DB");
         albumRepository.save(album);
 
         return true;
@@ -81,9 +86,10 @@ public class MusicServiceImpl implements MusicService {
         }
         album.setArtist(artist);
         album.setGenre(genre);
-        if (cover != null && !saveCover(album, cover)) {
+        if (!cover.isEmpty() && !saveCover(album, cover)) {
             return false;
         }
+        albumRepository.save(album);
         return true;
     }
 
@@ -95,12 +101,30 @@ public class MusicServiceImpl implements MusicService {
         if (file != null) {
             return saveArtistImage(artist, file);
         }
+        artistRepository.save(artist);
         return true;
+    }
+
+    @Override
+    public boolean addSong(Album album, String name) {
+        List<Song> songs = album.getSongs();
+        Song song = new Song();
+        song.setAlbum(album);
+        song.setName(name);
+        song.setNumber(songs.size() + 1);
+        songs.add(song);
+        songRepository.save(song);
+        return true;
+    }
+
+    @Override
+    public void deleteSong(Album album, Song song) {
+        songRepository.delete(song);
+        album.getSongs().remove(song);
     }
 
     private boolean saveArtistImage(Artist artist, MultipartFile image) {
         String filename = saveImage(image);
-        System.out.println(filename);
         if ("".equals(filename)) {
             return false;
         }

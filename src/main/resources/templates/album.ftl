@@ -18,6 +18,13 @@
                 <p class="lead">by ${album.artist.name}</p>
                 <p class="lead">Genre: ${album.genre}</p>
                 <h5 class="display-4">${album.averageScore}</h5>
+                <ul class="list-group">
+                    <#list album.songs as song>
+                    <li class="list-group-item">${song.number}. ${song.name}</li>
+                    <#else>
+                    <p class="lead">No songs yet</p>
+                </#list>
+                </ul>
                 <#if isAdmin>
                     <a href="/music-manage/album/${album.id}" class="btn btn-primary">Edit</a>
                     <a href="/music-manage/album/${album.id}/delete" class="btn btn-secondary">Delete</a>

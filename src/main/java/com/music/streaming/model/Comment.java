@@ -26,7 +26,6 @@ public class Comment {
     @JoinColumn(name = "album_id")
     private Album album;
 
-    // TODO: LAZY is better?
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;

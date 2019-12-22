@@ -6,7 +6,7 @@
     <div class="form-group col-md-6">
         <form class="form-inline" action="/artists" method="get">
             <input type="text" class="form-control" name="filter" value="${filter!}" placeholder="Search">
-            <button type="submit" class="btn btn-primary ml-3">Search by Tag</button>
+            <button type="submit" class="btn btn-primary ml-3">Search by artist name</button>
         </form>
     </div>
 </div>

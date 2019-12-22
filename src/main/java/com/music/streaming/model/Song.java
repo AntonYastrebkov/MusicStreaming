@@ -15,7 +15,7 @@ public class Song {
     private Integer number;
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "album_id")
     private Album album;
 }

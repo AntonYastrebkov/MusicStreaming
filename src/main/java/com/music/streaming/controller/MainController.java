@@ -29,7 +29,7 @@ public class MainController {
     private final AlbumRepository albumRepository;
 
     @GetMapping("/")
-    public String greeatings(Model model) {
+    public String greetings(Model model) {
         return "greetings";
     }
 
@@ -45,6 +45,4 @@ public class MainController {
         model.addAttribute("filter", filter);
         return "main";
     }
-
-
 }

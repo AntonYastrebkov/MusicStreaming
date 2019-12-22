@@ -29,4 +29,5 @@ public class Album {
     @JoinColumn(name = "song_id")
     private Set<Song> songs;
 
+    private Double averageScore = 0.0;
 }

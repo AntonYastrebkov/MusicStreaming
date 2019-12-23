@@ -7,14 +7,13 @@ import com.music.streaming.repository.UserRepository;
 import com.music.streaming.service.MailService;
 import com.music.streaming.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -22,6 +21,7 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final MailService mailService;
+    private final BCryptPasswordEncoder encoder;
 
     @Override
     public User getUser(Long id) {
@@ -37,10 +37,11 @@ public class UserServiceImpl implements UserService {
         userFromDb = new User();
         userFromDb.setEmail(userDto.getEmail());
         userFromDb.setUsername(userDto.getUsername());
-        userFromDb.setPassword(userDto.getPassword());
+        userFromDb.setPassword(encoder.encode(userDto.getPassword()));
         userFromDb.setFirstName(userDto.getFirstName());
         userFromDb.setLastName(userDto.getLastName());
         userFromDb.setRoles(Collections.singleton(Role.USER));
+
         userFromDb.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(userFromDb);
 

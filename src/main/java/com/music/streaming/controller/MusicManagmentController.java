@@ -55,6 +55,7 @@ public class MusicManagmentController {
             @RequestParam Genre genre,
             @RequestParam("file") MultipartFile cover
     ) {
+        System.out.println(name + " " + artistName);
         if (!musicService.addAlbum(name, artistName, cover, genre)) {
             model.addAttribute("message", "Impossible to add album!");
         } else {

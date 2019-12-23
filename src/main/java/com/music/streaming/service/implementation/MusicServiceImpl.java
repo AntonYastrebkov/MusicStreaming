@@ -98,7 +98,7 @@ public class MusicServiceImpl implements MusicService {
         artist.setName(name);
         artist.setDescription(description);
         artist.setYear(year);
-        if (file != null) {
+        if (!file.isEmpty()) {
             return saveArtistImage(artist, file);
         }
         artistRepository.save(artist);
